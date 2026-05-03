@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axiosClient from '../API/axiosClient';
+import axiosClient from '../api/axiosClient';
 
 const PATTERNS = {
   fullName: /^[a-zA-Z\s]{2,100}$/,
