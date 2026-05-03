@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore PaymentPortal.API/PaymentPortal.API.csproj
 
       - name: Build API
-        run: dotnet build PaymentPortal.API/PaymentPortal.API.csproj --no-restore --configuration Release
+        run: dotnet build PaymentPortal.API/PaymentPortal.API.csproj --no-restore --configuration Release /p:GenerateAssemblyInfo=false /p:GenerateTargetFrameworkAttribute=false
 
   build-react:
     name: Build React Frontend
