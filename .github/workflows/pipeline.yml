@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
- build-api:
+  build-api:
     name: Build API
     runs-on: ubuntu-latest
     steps:
