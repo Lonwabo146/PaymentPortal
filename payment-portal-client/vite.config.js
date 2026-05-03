@@ -3,9 +3,11 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
+const isCI = process.env.CI === 'true'
+
 export default defineConfig({
   plugins: [react()],
-  server: { 
+  server: !isCI ? {
     https: {
       key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),
       cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem')),
@@ -15,8 +17,8 @@ export default defineConfig({
       '/api': {
         target: 'https://localhost:7278',
         changeOrigin: true,
-        secure: false,  // allows self-signed certificates in dev
+        secure: false,
       }
     }
-  }
+  } : {},
 })
