@@ -1,0 +1,77 @@
+name: PaymentPortal CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-api:
+    name: Build API
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore PaymentPortal.API/PaymentPortal.API.csproj
+
+      - name: Build API
+        run: dotnet build PaymentPortal.API/PaymentPortal.API.csproj --no-restore --configuration Release
+
+  build-react:
+    name: Build React Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: payment-portal-client
+
+      - name: Build React app
+        run: npm run build
+        working-directory: payment-portal-client
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: [build-api, build-react]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: payment-portal-client
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+        working-directory: payment-portal-client
+        continue-on-error: true
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Check vulnerable NuGet packages
+        run: dotnet list PaymentPortal.API/PaymentPortal.API.csproj package --vulnerable
+        continue-on-error: true
