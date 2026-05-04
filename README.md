@@ -106,7 +106,7 @@ PaymentPortal/
    ```powershell
    dotnet run
    ```
-   The API will be available at `https://localhost:5001`
+   The API will be available at `https://localhost:7278`
 
 ### Frontend Setup
 
