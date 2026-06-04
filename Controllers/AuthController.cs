@@ -54,13 +54,16 @@ namespace PaymentPortal.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            if (!ValidationService.IsValidAccountNumber(dto.AccountNumber))
+            // Allow both customer account numbers and employee account numbers
+            bool isValidAccount = ValidationService.IsValidAccountNumber(dto.AccountNumber) ||
+                                  ValidationService.IsValidEmployeeAccountNumber(dto.AccountNumber);
+
+            if (!isValidAccount)
                 return BadRequest("Invalid account number.");
 
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.AccountNumber == dto.AccountNumber);
 
-            // Always return same message to prevent user enumeration
             if (user == null || !_authService.VerifyPassword(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid credentials.");
 
