@@ -1,22 +1,18 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@5.1.0
-  dotnet: circleci/dotnet@1.0.1
-
 jobs:
 
-  # ── Job 1: Build and test the API ──────────────────────────
   build-api:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:9.0
+      - image: mcr.microsoft.com/dotnet/sdk:8.0
     steps:
       - checkout
 
       - run:
           name: Create appsettings.json for build
           command: |
-            echo '{
+            cat > PaymentPortal.API/appsettings.json \<< 'EOF'
+            {
               "ConnectionStrings": {
                 "DefaultConnection": "Server=localhost;Database=PaymentPortalDB;Trusted_Connection=True;"
               },
@@ -31,7 +27,8 @@ jobs:
                 }
               },
               "AllowedHosts": "*"
-            }' > PaymentPortal.API/appsettings.json
+            }
+            EOF
 
       - run:
           name: Restore dependencies
@@ -41,27 +38,27 @@ jobs:
           name: Build API
           command: dotnet build PaymentPortal.API/PaymentPortal.API.csproj --no-restore --configuration Release
 
-  # ── Job 2: Build React frontend ────────────────────────────
   build-react:
     docker:
-      - image: cimg/node:20.0
+      - image: cimg/node:20.11
     steps:
       - checkout
 
       - run:
           name: Install dependencies
-          command: npm install
-          working_directory: payment-portal-client
+          command: |
+            cd payment-portal-client
+            npm install
 
       - run:
           name: Build React app
-          command: npm run build
-          working_directory: payment-portal-client
+          command: |
+            cd payment-portal-client
+            npm run build
 
-  # ── Job 3: SonarCloud analysis ─────────────────────────────
   sonarcloud-scan:
     docker:
-      - image: cimg/node:20.0
+      - image: cimg/node:20.11
     steps:
       - checkout
 
@@ -71,8 +68,9 @@ jobs:
 
       - run:
           name: Install React dependencies
-          command: npm install
-          working_directory: payment-portal-client
+          command: |
+            cd payment-portal-client
+            npm install
 
       - run:
           name: Run SonarCloud Analysis
@@ -83,10 +81,8 @@ jobs:
               -Dsonar.sources=. \
               -Dsonar.exclusions=**/node_modules/**,**/bin/**,**/obj/**,**/*.test.*,**/dist/** \
               -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.token=$SONAR_TOKEN \
-              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+              -Dsonar.token=$SONAR_TOKEN
 
-# ── Workflow: run all jobs on every push ───────────────────
 workflows:
   payment-portal-pipeline:
     jobs:
@@ -96,6 +92,3 @@ workflows:
           requires:
             - build-api
             - build-react
-
-
- 
