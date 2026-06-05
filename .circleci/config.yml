@@ -4,14 +4,14 @@ jobs:
 
   build-api:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:9.0
+      - image: mcr.microsoft.com/dotnet/sdk:10.0-preview
     steps:
       - checkout
 
       - run:
           name: Create appsettings.json for build
           command: |
-            cat > PaymentPortal.API/appsettings.json \<< 'EOF'
+            cat > PaymentPortal.API/appsettings.json << 'EOF'
             {
               "ConnectionStrings": {
                 "DefaultConnection": "Server=localhost;Database=PaymentPortalDB;Trusted_Connection=True;"
