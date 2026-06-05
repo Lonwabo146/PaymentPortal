@@ -31,5 +31,7 @@ namespace PaymentPortal.Services
         // Amount: positive number, max 2 decimal places
         public static bool IsValidAmount(decimal value) =>
             value > 0 && decimal.Round(value, 2) == value;
+        public static bool IsValidEmployeeAccountNumber(string value) =>
+        Regex.IsMatch(value, @"^EMP\d{3}$");
     }
 }
