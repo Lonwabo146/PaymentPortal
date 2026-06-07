@@ -18,6 +18,26 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+          dotnet-quality: 'preview'
+
+      - name: Create appsettings.json
+        run: |
+          echo '{
+            "ConnectionStrings": {
+              "DefaultConnection": "Server=localhost;Database=PaymentPortalDB;Trusted_Connection=True;"
+            },
+            "Jwt": {
+              "Key": "pipeline-dummy-key-32-characters-long!!",
+              "Issuer": "PaymentPortalAPI",
+              "Audience": "PaymentPortalClient"
+            },
+            "Logging": {
+              "LogLevel": {
+                "Default": "Information"
+              }
+            },
+            "AllowedHosts": "*"
+          }' > PaymentPortal.API/appsettings.json
 
       - name: Restore dependencies
         run: dotnet restore PaymentPortal.API/PaymentPortal.API.csproj
@@ -71,6 +91,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+          dotnet-quality: 'preview'
 
       - name: Check vulnerable NuGet packages
         run: dotnet list PaymentPortal.API/PaymentPortal.API.csproj package --vulnerable

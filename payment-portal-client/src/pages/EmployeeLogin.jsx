@@ -60,7 +60,7 @@ function EmployeeLogin() {
       <div style={styles.card}>
         <div style={styles.badge}>EMPLOYEE PORTAL</div>
         <h2 style={styles.title}>Staff Login</h2>
-        <p style={styles.subtitle}>International Payments — Internal System</p>
+        <p style={styles.subtitle}>International Payments </p>
 
         {serverError && <div style={styles.errorBox}>{serverError}</div>}
 
@@ -101,9 +101,7 @@ function EmployeeLogin() {
           </button>
         </form>
 
-        <p style={styles.link}>
-          Customer portal? <a href="/login" style={styles.anchor}>Click here</a>
-        </p>
+        
       </div>
     </div>
   );
@@ -115,7 +113,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#9797aa',
     fontFamily: 'Segoe UI, sans-serif',
   },
   card: {
@@ -128,7 +126,7 @@ const styles = {
   },
   badge: {
     display: 'inline-block',
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#393955d8',
     color: '#3DBFA0',
     fontSize: '11px',
     fontWeight: '700',
