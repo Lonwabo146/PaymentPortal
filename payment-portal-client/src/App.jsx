@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Register from './pages/Register';
+import Register from './Pages/Register';
 import Login from './Pages/Login';
-import PaymentForm from './pages/PaymentForm';
+import PaymentForm from './Pages/PaymentForm';
 import EmployeeLogin from './pages/EmployeeLogin';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import ProtectedRoute from './Components/ProtectedRoute';
