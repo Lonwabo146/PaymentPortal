@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Register from './pages/register';
-import Login from './pages/login';
-import PaymentForm from './pages/paymentForm';
-import EmployeeLogin from './pages/employeeLogin';
-import EmployeeDashboard from './pages/employeeDashboard';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import PaymentForm from './pages/PaymentForm';
+import EmployeeLogin from './pages/EmployeeLogin';
+import EmployeeDashboard from './pages/EmployeeDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
