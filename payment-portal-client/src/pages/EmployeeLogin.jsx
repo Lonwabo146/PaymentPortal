@@ -97,9 +97,7 @@ function EmployeeLogin() {
         </button>
       </form>
 
-      <p style={authStyles.link}>
-        Customer portal? <a href="/login" style={authStyles.anchor}>Click here</a>
-      </p>
+      
     </AuthCard>
   );
 }

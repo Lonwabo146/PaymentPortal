@@ -57,7 +57,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#65658a',
     fontFamily: 'Segoe UI, sans-serif',
   },
   card: {
